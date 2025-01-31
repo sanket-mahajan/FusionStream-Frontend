@@ -1,19 +1,29 @@
+import { useState } from "react";
 import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";
 import Sidebar from "./common/Sidebar";
 
 const Layout = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar sideBarOpen={setIsSidebarOpen} />
+
       {/* Main Content Area */}
-      <div className="flex flex-col flex-grow ml-64">
+      <div
+        className={`flex flex-col flex-grow min-h-screen transition-all duration-300 ${
+          isSidebarOpen ? "ml-64" : "ml-20"
+        }`}
+      >
         {/* Navbar */}
         <Navbar />
-        {/* Main Content */}
-        <main className="flex-grow p-6">{children}</main>
-        {/* Footer */}
+
+        {/* Main Content Wrapper */}
+        <main className="flex-grow pt-2 py-2">{children}</main>
+
+        {/* Footer at the bottom */}
         <Footer />
       </div>
     </div>

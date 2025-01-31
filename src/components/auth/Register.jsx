@@ -49,6 +49,21 @@ const Register = () => {
     navigate("/login"); // Navigate to login
   };
 
+  const cleanErrorMessage = (error) => {
+    if (!error) return "";
+
+    // Extract the main error message from HTML response
+    const match = error.match(/Error: (.*?)(<br>|<\/pre>)/);
+    if (match && match[1]) {
+      return `Invalid credentials: ${match[1].replace("exists", "exist")}`;
+    }
+
+    // Fallback error messages
+    if (error.includes("Network Error"))
+      return "Connection failed. Check your internet";
+    return "An unexpected error occurred";
+  };
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <form
@@ -56,7 +71,13 @@ const Register = () => {
         className="w-full max-w-md bg-white rounded-lg shadow-lg p-8"
       >
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
-        {isError && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
+        {isError && (
+          <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
+            <p className="text-red-600 text-sm font-medium">
+              ⚠️ {cleanErrorMessage(errorMessage)}
+            </p>
+          </div>
+        )}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Name</label>
           <input

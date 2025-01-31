@@ -13,8 +13,6 @@ const GetAllTweets = () => {
   }, [dispatch]);
 
   const onTweetClick = async (tweet) => {
-    console.log(tweet);
-    console.log(tweet._id);
     await dispatch(fetchTweetById(tweet._id));
     navigate(`/tweet/${tweet._id}`);
   };
@@ -26,7 +24,7 @@ const GetAllTweets = () => {
 
   return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">All Tweets</h2>
+      <h2 className="text-2xl font-bold mb-4 text-white">All Tweets</h2>
       <div className="space-y-4">
         {tweets.map((tweet) => (
           <div

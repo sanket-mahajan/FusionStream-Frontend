@@ -23,6 +23,7 @@ export const toggleTweetLike = async (tweetId) => {
 // Get liked videos
 export const getLikedVideos = async () => {
   const response = await axiosInstance.get("/likes/videos");
+  console.log(response.data.data);
   return response.data.data;
 };
 // Get liked Tweets

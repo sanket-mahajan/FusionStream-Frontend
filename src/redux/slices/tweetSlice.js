@@ -173,9 +173,9 @@ const tweetSlice = createSlice({
 
       // Add Tweet
       .addCase(addTweet.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.tweets.unshift(action.payload); // Add new tweet to the start
-        }
+        // if (action.payload) {
+        //   state.tweets.unshift(action.payload); // Add new tweet to the start
+        // }
       })
 
       // Update Tweet

@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTweet } from "../../redux/slices/tweetSlice";
+import { addTweet, fetchTweets } from "../../redux/slices/tweetSlice";
 
 const CreateTweet = () => {
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (content.trim()) {
-      dispatch(addTweet({ content }));
+      await dispatch(addTweet({ content }));
       setContent("");
+      await dispatch(fetchTweets());
     } else {
       alert("Tweet content cannot be empty!");
     }
