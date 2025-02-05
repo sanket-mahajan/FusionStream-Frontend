@@ -5,7 +5,6 @@ import {
   FiUpload,
   FiUsers,
   FiMessageSquare,
-  FiFilm,
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";

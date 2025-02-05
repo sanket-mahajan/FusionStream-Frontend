@@ -2,7 +2,9 @@ import axios from "axios";
 import ErrorHandler from "../components/ErrorHandler/ErrorHandler";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.API_URL || "http://localhost:8000/api/v1",
+  baseURL:
+    import.meta.env.API_URL ||
+    "https://fusionstream-backend.onrender.com/api/v1",
   withCredentials: true, // Sends cookies along with requests
 });
 
