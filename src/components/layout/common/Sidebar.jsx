@@ -9,6 +9,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
+import Logo from "../../../../public/FusionStream.svg";
 
 const Sidebar = ({ sideBarOpen }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -44,7 +45,8 @@ const Sidebar = ({ sideBarOpen }) => {
             !isSidebarOpen && "justify-center"
           }`}
         >
-          <FiFilm className="text-blue-400" />
+          {/* <FiFilm className="text-blue-400" /> */}
+          <img src={Logo} alt="Fusion Stream Logo" className="h-9 w-9" />
           <span className={`${!isSidebarOpen && "hidden"}`}>Fusion Stream</span>
         </Link>
 
