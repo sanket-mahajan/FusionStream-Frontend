@@ -64,7 +64,6 @@ const VideoDetails = () => {
     (c) => c.channel?._id?.toString() === currentVideo.owner._id.toString()
   );
 
-  console.log(likedVideos);
   const isLiked = likedVideos?.some(
     (v) => v.video?._id?.toString() === currentVideo._id.toString()
   );
@@ -83,7 +82,7 @@ const VideoDetails = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-900 rounded-lg shadow-md max-w-4xl mx-auto relative">
+    <div className="p-6 bg-gray-900 rounded-lg shadow-md max-w-4xl mx-auto relative my-2">
       {/* Video Player Section */}
       <div className="mb-6">
         <video

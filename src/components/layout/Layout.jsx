@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
         <Navbar />
 
         {/* Main Content Wrapper */}
-        <main className="flex-grow pt-2 py-2">{children}</main>
+        <main className="flex-grow ">{children}</main>
 
         {/* Footer at the bottom */}
         <Footer />

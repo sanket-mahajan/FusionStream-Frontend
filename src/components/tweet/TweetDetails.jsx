@@ -93,7 +93,7 @@ const TweetDetails = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-900 rounded-lg shadow-xl max-w-3xl mx-auto text-white relative">
+    <div className="p-8 bg-gray-900 rounded-lg shadow-xl max-w-3xl mx-auto text-white relative my-2">
       {/* Tweet Content */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-4">{tweet.content}</h1>
