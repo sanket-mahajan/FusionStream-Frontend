@@ -116,10 +116,10 @@ const authSlice = createSlice({
   reducers: {
     clearAuthState: (state) => {
       state.user = null;
-      state.token = null;
+      state.accessToken = null;
       state.isError = false;
       state.errorMessage = "";
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
     },
   },
   extraReducers: (builder) => {
@@ -156,8 +156,8 @@ const authSlice = createSlice({
       // Logout
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
-        state.token = null;
-        localStorage.removeItem("token");
+        state.accessToken = null;
+        localStorage.removeItem("accessToken");
       })
       // Fetch Current User
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {

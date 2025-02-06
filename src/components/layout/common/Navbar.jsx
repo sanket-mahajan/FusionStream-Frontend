@@ -234,7 +234,10 @@ const ProfileSection = ({ user, accessToken, logout }) => {
                 Profile
               </Link>
               <button
-                onClick={logout}
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  logout();
+                }}
                 className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
               >
                 Logout

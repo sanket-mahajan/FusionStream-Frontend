@@ -19,8 +19,10 @@ const Login = () => {
       const response = await dispatch(login({ email, password })).unwrap(); // Unwrap the resolved action
       console.log("Login successful:", response);
 
+      const { accessToken } = response;
+
       // Save accessToken from response payload
-      localStorage.setItem("accessToken", accessToken);
+      await localStorage.setItem("accessToken", accessToken);
 
       // Navigate to videos page
       navigate("/videos");
@@ -109,7 +111,7 @@ const Login = () => {
           <p className="text-gray-500">Sign in to continue</p>
         </div>
 
-        {isError && (
+        {accessToken && isError && (
           <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
             <p className="text-red-600 text-sm font-medium">
               ⚠️ {cleanErrorMessage(errorMessage)}
