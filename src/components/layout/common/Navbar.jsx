@@ -79,7 +79,7 @@ const Navbar = () => {
           </nav>
 
           {/* Right Section */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-1">
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="relative">
               <input

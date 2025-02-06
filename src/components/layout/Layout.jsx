@@ -4,24 +4,24 @@ import Footer from "./common/Footer";
 import Sidebar from "./common/Sidebar";
 
 const Layout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <Sidebar sideBarOpen={isSidebarOpen} setSideBarOpen={setIsSidebarOpen} />
+      <Sidebar sideBarOpen={setIsSidebarOpen} />
 
       {/* Main Content Area */}
       <div
-        className={`flex flex-col flex-grow min-h-screen transition-all duration-200 ${
-          isSidebarOpen ? "ml-64" : "ml-0 md:ml-20"
+        className={`flex flex-col flex-grow min-h-screen transition-all duration-300 ${
+          isSidebarOpen ? "ml-64" : "ml-0"
         }`}
       >
         {/* Navbar */}
-        <Navbar setIsSidebarOpen={setIsSidebarOpen} />
+        <Navbar />
 
         {/* Main Content Wrapper */}
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow ">{children}</main>
 
         {/* Footer at the bottom */}
         <Footer />

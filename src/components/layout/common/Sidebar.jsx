@@ -8,7 +8,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
-import Logo from "../../../../public/FusionStream.svg";
+import Logo from "../../../assets/FusionStream.svg";
 
 const Sidebar = ({ sideBarOpen }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -21,7 +21,7 @@ const Sidebar = ({ sideBarOpen }) => {
   return (
     <aside
       className={`bg-gray-800 text-white h-screen fixed top-0 left-0 hidden md:block border-r border-gray-700 transition-all duration-300 ${
-        isSidebarOpen ? "w-64" : "w-20"
+        isSidebarOpen ? "w-64" : "w-0"
       }`}
     >
       <div className="py-4 px-6 relative h-full">
