@@ -5,22 +5,25 @@ import { useSelector } from "react-redux";
 
 const Layout = ({ children }) => {
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
+
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
 
-      <Sidebar />
+      <div className="flex flex-grow">
+        <Sidebar />
 
-      {/* Main Content Area */}
-      <div
-        className={`flex flex-col flex-grow min-h-screen transition-all duration-300 ${
-          isSidebarOpen ? "ml-64" : "ml-0"
-        }`}
-      >
-        {/* Main Content Wrapper */}
-        <main className="flex-grow mt-16">{children}</main>
+        {/* Main Content Area */}
+        <div
+          className={`flex flex-col flex-grow min-h-screen transition-all duration-300 ${
+            isSidebarOpen ? "ml-0 md:ml-64" : "ml-0 md:ml-20"
+          }`}
+        >
+          {/* Main Content Wrapper */}
+          <main className="flex-grow mt-16">{children}</main>
 
-        <Footer />
+          <Footer />
+        </div>
       </div>
     </div>
   );

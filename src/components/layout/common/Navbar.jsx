@@ -4,10 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useLogout from "../../auth/Logout";
 import { fetchAllVideos } from "../../../redux/slices/videoSlice";
 import { fetchCurrentUser } from "../../../redux/slices/authSlice";
-import {
-  toggleSidebar,
-  closeSidebar,
-} from "../../../redux/slices/sidebarSlice";
+import { toggleSidebar } from "../../../redux/slices/sidebarSlice";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Logo from "../../../assets/FusionStream.svg";
 
@@ -26,19 +23,6 @@ const Navbar = () => {
       dispatch(fetchCurrentUser());
     }
   }, [dispatch, accessToken, user]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 780) {
-        dispatch(closeSidebar());
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    // Check on mount
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, [dispatch]);
 
   const handleSearch = (e) => {
     e.preventDefault();
