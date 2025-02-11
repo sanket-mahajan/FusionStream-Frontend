@@ -82,18 +82,102 @@ const VideoDetails = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-900 rounded-lg shadow-md max-w-4xl mx-auto relative my-2">
+    // <div className="p-6 bg-gray-900 rounded-lg shadow-md max-w-4xl mx-auto relative my-2">
+    //   {/* Video Player Section */}
+    //   <div className="mb-6">
+    //     <video
+    //       controls
+    //       className="w-full rounded-lg shadow-lg mb-4"
+    //       src={currentVideo.videoFile}
+    //     ></video>
+    //     <h1 className="text-3xl text-white font-extrabold mb-2">
+    //       {currentVideo.title}
+    //     </h1>
+    //     <div className="flex justify-between text-gray-400 text-sm">
+    //       <span>{currentVideo.views.toLocaleString()} views</span>
+    //       <span>
+    //         {formatDistanceToNow(new Date(currentVideo.createdAt), {
+    //           addSuffix: true,
+    //         })}
+    //       </span>
+    //     </div>
+    //   </div>
+
+    //   {/* Channel Info and Actions */}
+    //   <div className="flex items-center mb-6">
+    //     <img
+    //       src={currentVideo.owner?.avatar}
+    //       alt="Channel Avatar"
+    //       className="w-16 h-16 rounded-full object-cover border-2 border-gray-300 mr-4"
+    //     />
+    //     <div className="flex-grow">
+    //       <span className="text-lg text-white font-semibold block">
+    //         {currentVideo.owner?.fullName}
+    //       </span>
+    //       <span className="text-sm text-gray-400">
+    //         {channelSubscribers.length} subscribers
+    //       </span>
+    //     </div>
+    //     <button
+    //       className={`px-4 py-2 rounded-lg text-white ${
+    //         isSubscribed
+    //           ? "bg-red-500 hover:bg-red-600"
+    //           : "bg-blue-500 hover:bg-blue-600"
+    //       }`}
+    //       onClick={handleSubscribe}
+    //     >
+    //       {isSubscribed ? "Unsubscribe" : "Subscribe"}
+    //     </button>
+    //   </div>
+
+    //   {/* Like and Playlist Buttons */}
+    //   <div className="flex items-center space-x-4 mb-6">
+    //     <button
+    //       onClick={handleLikeClick}
+    //       className={`px-6 py-2 rounded-lg text-lg text-white shadow-md ${
+    //         isLiked
+    //           ? "bg-gray-500 hover:bg-gray-600"
+    //           : "bg-green-500 hover:bg-green-600"
+    //       }`}
+    //     >
+    //       {isLiked ? "Unlike" : "Like"}
+    //     </button>
+    //     <button
+    //       onClick={() => setShowAddToPlaylist(!showAddToPlaylist)}
+    //       className="px-6 py-2 rounded-lg text-lg text-white shadow-md bg-blue-500 hover:bg-blue-600"
+    //     >
+    //       Add to Playlist
+    //     </button>
+    //   </div>
+    //   {showAddToPlaylist && <AddToPlaylist />}
+
+    //   {/* Video Description */}
+    //   <div className="text-gray-300 mb-6">
+    //     <h2 className="text-xl font-bold text-white mb-2">Description</h2>
+    //     <p>{currentVideo.description}</p>
+    //   </div>
+
+    //   {/* Comments Section */}
+    //   <div className="mt-6">
+    //     <h2 className="text-2xl text-white font-bold mb-4">Comments</h2>
+    //     <Comments />
+    //   </div>
+    // </div>
+
+    <div className="p-4 md:p-6 bg-gray-900 rounded-lg shadow-md mx-auto relative my-2">
       {/* Video Player Section */}
-      <div className="mb-6">
-        <video
-          controls
-          className="w-full rounded-lg shadow-lg mb-4"
-          src={currentVideo.videoFile}
-        ></video>
-        <h1 className="text-3xl text-white font-extrabold mb-2">
+      <div className="mb-4 md:mb-6">
+        <div className="aspect-video rounded-lg overflow-hidden">
+          <video
+            controls
+            className="w-full h-full object-cover"
+            src={currentVideo.videoFile}
+          ></video>
+        </div>
+        <h1 className="text-xl md:text-3xl text-white font-bold mt-4 mb-2">
           {currentVideo.title}
         </h1>
-        <div className="flex justify-between text-gray-400 text-sm">
+        <div className="flex justify-between text-gray-400 text-xs md:text-sm">
           <span>{currentVideo.views.toLocaleString()} views</span>
           <span>
             {formatDistanceToNow(new Date(currentVideo.createdAt), {
@@ -104,22 +188,22 @@ const VideoDetails = () => {
       </div>
 
       {/* Channel Info and Actions */}
-      <div className="flex items-center mb-6">
+      <div className="flex flex-wrap items-center mb-4 md:mb-6 gap-3">
         <img
           src={currentVideo.owner?.avatar}
           alt="Channel Avatar"
-          className="w-16 h-16 rounded-full object-cover border-2 border-gray-300 mr-4"
+          className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-2 border-gray-300"
         />
-        <div className="flex-grow">
-          <span className="text-lg text-white font-semibold block">
+        <div className="flex-grow min-w-[200px] flex-1">
+          <span className="text-base md:text-lg text-white font-semibold block">
             {currentVideo.owner?.fullName}
           </span>
-          <span className="text-sm text-gray-400">
+          <span className="text-xs md:text-sm text-gray-400">
             {channelSubscribers.length} subscribers
           </span>
         </div>
         <button
-          className={`px-4 py-2 rounded-lg text-white ${
+          className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-sm md:text-base text-white ${
             isSubscribed
               ? "bg-red-500 hover:bg-red-600"
               : "bg-blue-500 hover:bg-blue-600"
@@ -131,10 +215,10 @@ const VideoDetails = () => {
       </div>
 
       {/* Like and Playlist Buttons */}
-      <div className="flex items-center space-x-4 mb-6">
+      <div className="flex flex-wrap items-center gap-3 mb-4 md:mb-6">
         <button
           onClick={handleLikeClick}
-          className={`px-6 py-2 rounded-lg text-lg text-white shadow-md ${
+          className={`px-4 py-2 rounded-lg text-sm md:text-base text-white shadow-md ${
             isLiked
               ? "bg-gray-500 hover:bg-gray-600"
               : "bg-green-500 hover:bg-green-600"
@@ -144,22 +228,27 @@ const VideoDetails = () => {
         </button>
         <button
           onClick={() => setShowAddToPlaylist(!showAddToPlaylist)}
-          className="px-6 py-2 rounded-lg text-lg text-white shadow-md bg-blue-500 hover:bg-blue-600"
+          className="px-4 py-2 rounded-lg text-sm md:text-base text-white shadow-md bg-blue-500 hover:bg-blue-600"
         >
           Add to Playlist
         </button>
       </div>
-      {showAddToPlaylist && <AddToPlaylist />}
 
       {/* Video Description */}
-      <div className="text-gray-300 mb-6">
-        <h2 className="text-xl font-bold text-white mb-2">Description</h2>
-        <p>{currentVideo.description}</p>
+      <div className="text-gray-300 mb-4 md:mb-6">
+        <h2 className="text-lg md:text-xl font-bold text-white mb-2">
+          Description
+        </h2>
+        <p className="text-sm md:text-base break-words">
+          {currentVideo.description}
+        </p>
       </div>
 
       {/* Comments Section */}
-      <div className="mt-6">
-        <h2 className="text-2xl text-white font-bold mb-4">Comments</h2>
+      <div className="mt-4 md:mt-6">
+        <h2 className="text-xl md:text-2xl text-white font-bold mb-3">
+          Comments
+        </h2>
         <Comments />
       </div>
     </div>
