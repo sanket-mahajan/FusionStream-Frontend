@@ -7,6 +7,7 @@ import tweetReducer from "./slices/tweetSlice";
 import userReducer from "./slices/userSlice";
 import videoReducer from "./slices/videoSlice";
 import commentReducer from "./slices/commentSlice";
+import sidebarReducer from "./slices/sidebarSlice";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     comments: commentReducer,
     user: userReducer,
     video: videoReducer,
+    sidebar: sidebarReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

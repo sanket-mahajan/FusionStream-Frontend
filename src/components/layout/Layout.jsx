@@ -1,15 +1,15 @@
-import { useState } from "react";
 import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";
 import Sidebar from "./common/Sidebar";
+import { useSelector } from "react-redux";
 
 const Layout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const { isSidebarOpen } = useSelector((state) => state.sidebar);
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <Sidebar sideBarOpen={setIsSidebarOpen} />
+      <Navbar />
+
+      <Sidebar />
 
       {/* Main Content Area */}
       <div
@@ -17,13 +17,9 @@ const Layout = ({ children }) => {
           isSidebarOpen ? "ml-64" : "ml-0"
         }`}
       >
-        {/* Navbar */}
-        <Navbar />
-
         {/* Main Content Wrapper */}
-        <main className="flex-grow ">{children}</main>
+        <main className="flex-grow mt-16">{children}</main>
 
-        {/* Footer at the bottom */}
         <Footer />
       </div>
     </div>
