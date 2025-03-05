@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useLogout from "../../auth/Logout";
@@ -18,12 +18,36 @@ const Navbar = () => {
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
   const accessToken = localStorage.getItem("accessToken");
 
+  // Refs for handling click outside
+  const menuRef = useRef(null);
+  const menuButtonRef = useRef(null);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isMenuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen]);
+
+  // Fetch current user if access token exists
   useEffect(() => {
     if (accessToken && !user) {
       dispatch(fetchCurrentUser());
     }
   }, [dispatch, accessToken, user]);
 
+  // Handle search functionality
   const handleSearch = (e) => {
     e.preventDefault();
     if (search.trim()) {
@@ -32,6 +56,7 @@ const Navbar = () => {
     }
   };
 
+  // Handle Enter key press for search
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch(e);
@@ -43,11 +68,14 @@ const Navbar = () => {
       <div className="container px-4 mx-auto sm:px-6 lg:px-8">
         {/* Main Navbar */}
         <div className="flex items-center justify-between h-16 gap-4 relative">
-          {/* Mobile Menu Button (Visible only on Mobile) */}
+          {/* Mobile Menu Button */}
           <button
+            ref={menuButtonRef}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="sm:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
             aria-label="Open menu"
+            aria-expanded={isMenuOpen}
+            aria-haspopup="true"
           >
             <svg
               className="h-6 w-6"
@@ -84,7 +112,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Sidebar Toggle (Visible only on Desktop) */}
+          {/* Desktop Sidebar Toggle */}
           <button
             onClick={() => dispatch(toggleSidebar())}
             className="hidden sm:flex absolute top-5 bg-gray-800 rounded-full p-1.5 border border-gray-700 hover:bg-gray-700 transition-colors"
@@ -150,7 +178,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="sm:hidden pb-4 pt-2">
+          <div ref={menuRef} className="sm:hidden pb-4 pt-2">
             <nav className="flex flex-col space-y-2">
               <MobileNavLink to="/" onClick={() => setIsMenuOpen(false)}>
                 Home
@@ -229,13 +257,37 @@ const PlusIcon = () => (
 
 const ProfileSection = ({ user, accessToken, logout }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isDropdownOpen]);
 
   return (
     <div className="relative">
       <button
+        ref={buttonRef}
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex items-center focus:outline-none"
         aria-label="User menu"
+        aria-expanded={isDropdownOpen}
+        aria-haspopup="true"
       >
         {user?.avatar ? (
           <img
@@ -253,13 +305,18 @@ const ProfileSection = ({ user, accessToken, logout }) => {
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 text-gray-900 z-50">
+        <div
+          ref={dropdownRef}
+          role="menu"
+          className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 text-gray-900 z-50"
+        >
           {accessToken ? (
             <>
               <Link
                 to="/profile"
                 className="block px-4 py-2 text-sm hover:bg-gray-100"
                 onClick={() => setIsDropdownOpen(false)}
+                role="menuitem"
               >
                 Profile
               </Link>
@@ -269,6 +326,7 @@ const ProfileSection = ({ user, accessToken, logout }) => {
                   logout();
                 }}
                 className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                role="menuitem"
               >
                 Logout
               </button>
@@ -279,6 +337,7 @@ const ProfileSection = ({ user, accessToken, logout }) => {
                 to="/login"
                 className="block px-4 py-2 text-sm hover:bg-gray-100"
                 onClick={() => setIsDropdownOpen(false)}
+                role="menuitem"
               >
                 Login
               </Link>
@@ -286,6 +345,7 @@ const ProfileSection = ({ user, accessToken, logout }) => {
                 to="/register"
                 className="block px-4 py-2 text-sm hover:bg-gray-100"
                 onClick={() => setIsDropdownOpen(false)}
+                role="menuitem"
               >
                 Register
               </Link>

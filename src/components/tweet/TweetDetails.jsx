@@ -47,17 +47,6 @@ const TweetDetails = () => {
     (c) => c.channel._id.toString() === tweet?.owner?._id.toString()
   );
 
-  if (isLoading) {
-    return <p className="text-center text-gray-400">Loading tweet...</p>;
-  }
-
-  if (isError || !tweet) {
-    return <p className="text-center text-red-500">Error loading tweet.</p>;
-  }
-
-  console.log("tweet Id", tweet._id);
-  console.log("Liked Tweets", likedTweets);
-
   const isLiked = likedTweets?.some(
     (t) => t?.tweet?._id?.toString() === tweet._id.toString()
   );
@@ -66,7 +55,7 @@ const TweetDetails = () => {
     if (content.trim()) {
       dispatch(updateUserTweets({ tweetId: tweet._id, content }));
       await dispatch(fetchTweetById(tweetId));
-      setIsModalOpen(false); // Close modal after updating
+      setIsModalOpen(false);
     } else {
       alert("Content cannot be empty!");
     }
@@ -74,16 +63,16 @@ const TweetDetails = () => {
 
   const handleLikeClick = async () => {
     await dispatch(likeTweet(tweet._id));
-    await dispatch(fetchLikedTweets(user?._id)); // Refresh liked tweets
+    await dispatch(fetchLikedTweets(user?._id));
   };
 
   const handleSubscribe = async () => {
     await dispatch(toggleSubscribe(tweet.owner._id));
-    await dispatch(fetchSubscribedChannels(user._id)); // Refresh subscriptions
+    await dispatch(fetchSubscribedChannels(user._id));
   };
 
   const openUpdateModal = () => {
-    setContent(tweet.content); // Set the current tweet content in the input field
+    setContent(tweet.content);
     setIsModalOpen(true);
   };
 
@@ -92,12 +81,22 @@ const TweetDetails = () => {
     setIsModalOpen(false);
   };
 
+  if (isLoading) {
+    return <p className="text-center text-gray-400">Loading tweet...</p>;
+  }
+
+  if (isError || !tweet) {
+    return <p className="text-center text-red-500">Error loading tweet.</p>;
+  }
+
   return (
-    <div className="p-8 bg-gray-900 rounded-lg shadow-xl max-w-3xl mx-auto text-white relative my-2">
+    <div className="p-2 sm:p-4 md:p-6 bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-full max-w-full sm:max-w-2xl md:max-w-3xl mx-auto text-white relative my-2 overflow-x-hidden">
       {/* Tweet Content */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-4">{tweet.content}</h1>
-        <p className="text-sm text-gray-400">
+      <div className="mb-2 sm:mb-4">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2 break-words px-1">
+          {tweet.content}
+        </h1>
+        <p className="text-[10px] sm:text-xs text-gray-400 break-words px-1">
           Posted by{" "}
           <span className="font-semibold text-white">
             {tweet.owner?.fullName}
@@ -107,32 +106,31 @@ const TweetDetails = () => {
 
       {/* Tweet Actions */}
       {tweet.owner?._id === user._id && (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-2 sm:mt-4">
           <button
             onClick={openUpdateModal}
-            className="px-5 py-2 bg-blue-500 text-white rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:bg-blue-600 hover:scale-105"
+            className="w-full px-3 sm:px-4 py-1 sm:py-2 bg-blue-500 text-white rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:bg-blue-600 hover:scale-105 text-xs sm:text-sm"
           >
             Update
           </button>
         </div>
       )}
 
-      <div className="flex justify-between text-gray-400 text-sm mt-4">
+      {/* Timestamp and Edited Indicator */}
+      <div className="flex flex-col sm:flex-row justify-between text-gray-400 text-[10px] sm:text-xs mt-2 sm:mt-4 px-1">
         <span>
-          {formatDistanceToNow(new Date(tweet.createdAt), {
-            addSuffix: true,
-          })}
+          {formatDistanceToNow(new Date(tweet.createdAt), { addSuffix: true })}
         </span>
         {tweet.createdAt !== tweet.updatedAt && (
-          <span className="italic">Edited</span>
+          <span className="italic mt-1 sm:mt-0">Edited</span>
         )}
       </div>
 
       {/* Actions: Like and Subscribe */}
-      <div className="flex items-center justify-between mt-6 mb-8">
+      <div className="flex flex-col sm:flex-row items-center justify-between mt-2 sm:mt-4 mb-4 sm:mb-6 gap-2 sm:gap-0 px-1">
         <button
           onClick={handleLikeClick}
-          className={`px-6 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ease-in-out ${
+          className={`w-full px-3 sm:px-4 py-1 sm:py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ease-in-out text-xs sm:text-sm ${
             isLiked
               ? "bg-gray-600 hover:bg-gray-700"
               : "bg-green-500 hover:bg-green-600"
@@ -142,7 +140,7 @@ const TweetDetails = () => {
         </button>
         <button
           onClick={handleSubscribe}
-          className={`px-6 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ease-in-out ${
+          className={`w-full px-3 sm:px-4 py-1 sm:py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ease-in-out text-xs sm:text-sm ${
             isSubscribed
               ? "bg-red-500 hover:bg-red-600"
               : "bg-blue-500 hover:bg-blue-600"
@@ -153,34 +151,36 @@ const TweetDetails = () => {
       </div>
 
       {/* Comments Section */}
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold mb-4">Comments</h2>
+      <div className="mt-2 sm:mt-4 px-1">
+        <h2 className="text-sm sm:text-lg font-semibold mb-2 sm:mb-3">
+          Comments
+        </h2>
         <Comments />
       </div>
 
       {/* Modal for Updating Tweet */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96 transform transition-all duration-300 ease-in-out">
-            <h3 className="text-2xl font-semibold text-white mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm p-2 sm:p-0">
+          <div className="bg-gray-800 p-3 sm:p-4 rounded-lg shadow-lg w-full max-w-[90vw] sm:w-80 transform transition-all duration-300 ease-in-out">
+            <h3 className="text-base sm:text-xl font-semibold text-white mb-2 sm:mb-3">
               Update Tweet
             </h3>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="4"
+              className="w-full p-2 sm:p-3 bg-gray-700 text-white rounded-lg mb-2 sm:mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+              rows="3"
             />
-            <div className="flex justify-end space-x-4">
+            <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
               <button
                 onClick={closeModal}
-                className="px-5 py-2 bg-gray-500 text-white rounded-lg transition-all duration-200 ease-in-out hover:bg-gray-600"
+                className="w-full px-3 sm:px-4 py-1 sm:py-2 bg-gray-500 text-white rounded-lg transition-all duration-200 ease-in-out hover:bg-gray-600 text-xs sm:text-sm"
               >
                 Cancel
               </button>
               <button
                 onClick={handleTweetUpdate}
-                className="px-5 py-2 bg-blue-500 text-white rounded-lg transition-all duration-200 ease-in-out hover:bg-blue-600"
+                className="w-full px-3 sm:px-4 py-1 sm:py-2 bg-blue-500 text-white rounded-lg transition-all duration-200 ease-in-out hover:bg-blue-600 text-xs sm:text-sm"
               >
                 Update
               </button>

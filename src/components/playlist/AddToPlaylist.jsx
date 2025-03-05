@@ -22,16 +22,16 @@ const AddToPlaylist = () => {
     }
   }, [dispatch, user]);
 
-  const handleClick = (playlistId, isAlreadyInPlaylist) => {
-    if (!isAlreadyInPlaylist) {
+  const handleAdd = (playlistId, isAlreadyAdded) => {
+    if (!isAlreadyAdded) {
       dispatch(
         addVideoToPlaylistById({ playlistId, videoId: currentVideo._id })
       );
     }
   };
 
-  const handleRemove = (playlistId, isAlreadyInPlaylist) => {
-    if (isAlreadyInPlaylist) {
+  const handleRemove = (playlistId, isAlreadyAdded) => {
+    if (isAlreadyAdded) {
       dispatch(
         removeVideoFromPlaylistById({ playlistId, videoId: currentVideo._id })
       );
@@ -42,11 +42,9 @@ const AddToPlaylist = () => {
     navigate(`/playlist/${playlistId}`);
   };
 
-  console.log(playlists);
-
   return (
     <div className="p-6 bg-gray-800 rounded-lg shadow-md max-w-md mx-auto text-white">
-      <h1 className="text-xl font-bold mb-4">Add to Playlist</h1>
+      <h1 className="text-2xl font-bold mb-6">Add to Playlist</h1>
       {isLoading && <p className="text-blue-400">Loading playlists...</p>}
       {isError && (
         <p className="text-red-500">
@@ -54,51 +52,42 @@ const AddToPlaylist = () => {
         </p>
       )}
       {!isLoading && playlists?.length === 0 && (
-        <p className="text-gray-400">You don&apos;t have any playlists yet.</p>
+        <p className="text-gray-400">You don't have any playlists yet.</p>
       )}
-      <ul className="space-y-3">
+      <ul className="space-y-4 mt-4">
         {playlists?.map((playlist) => {
-          const isAlreadyInPlaylist = playlist.videos.some(
+          const isAlreadyAdded = playlist.videos.some(
             (video) => video === currentVideo._id
           );
           return (
             <li
               key={playlist._id}
-              className={`flex items-center justify-between bg-gray-700 px-4 py-3 rounded-md ${
-                isAlreadyInPlaylist
-                  ? "cursor-not-allowed"
-                  : "hover:bg-gray-600 cursor-pointer"
-              }`}
+              className="bg-gray-700 px-4 py-3 rounded-md flex flex-col sm:flex-row sm:items-center justify-between"
             >
               <span className="text-lg font-medium">{playlist.name}</span>
-              <button
-                onClick={() => handleClick(playlist._id, isAlreadyInPlaylist)}
-                className={`text-sm px-2 py-1 rounded-md ${
-                  isAlreadyInPlaylist
-                    ? "bg-gray-500 text-gray-300"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
-                disabled={isAlreadyInPlaylist}
-              >
-                {isAlreadyInPlaylist ? "Already Added" : "Add"}
-              </button>
-              {isAlreadyInPlaylist && (
+              <div className="flex space-x-2 mt-2 sm:mt-0">
+                {isAlreadyAdded ? (
+                  <button
+                    onClick={() => handleRemove(playlist._id, isAlreadyAdded)}
+                    className="px-3 py-1 bg-red-500 hover:bg-red-600 rounded-md text-sm font-medium"
+                  >
+                    Remove
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleAdd(playlist._id, isAlreadyAdded)}
+                    className="px-3 py-1 bg-green-500 hover:bg-green-600 rounded-md text-sm font-medium"
+                  >
+                    Add
+                  </button>
+                )}
                 <button
-                  onClick={() =>
-                    handleRemove(playlist._id, isAlreadyInPlaylist)
-                  }
-                  className={`text-sm px-2 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600`}
+                  onClick={() => navigateToPlaylist(playlist._id)}
+                  className="px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded-md text-sm font-medium"
                 >
-                  Remove
+                  View
                 </button>
-              )}
-
-              <button
-                onClick={() => navigateToPlaylist(playlist._id)}
-                className="text-sm px-2 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600"
-              >
-                View Playlist
-              </button>
+              </div>
             </li>
           );
         })}
