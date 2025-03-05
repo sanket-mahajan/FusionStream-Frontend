@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateVideo } from "../../redux/slices/videoSlice"; // Assuming slice path
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const EditVideo = ({ video }) => {
   const [title, setTitle] = useState(video.title || "");
@@ -20,6 +21,13 @@ const EditVideo = ({ video }) => {
       setThumbnail(video.thumbnail || "");
     }
   }, [video]);
+
+  if (isLoading)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
 
   const handleSave = () => {
     if (title.trim() === "" || description.trim() === "") {

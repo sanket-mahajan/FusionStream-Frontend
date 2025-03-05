@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadNewVideo } from "../../redux/slices/videoSlice";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const VideoUploader = ({ onUpload }) => {
   const [videoFile, setVideoFile] = useState(null);
@@ -12,6 +13,13 @@ const VideoUploader = ({ onUpload }) => {
   const { isLoading, isError, errorMessage } = useSelector(
     (state) => state.video
   );
+
+  if (isLoading)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
 
   const handleUpload = async () => {
     if (!videoFile || title.trim() === "" || description.trim() === "") {

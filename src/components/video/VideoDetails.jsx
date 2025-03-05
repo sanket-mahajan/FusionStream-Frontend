@@ -11,6 +11,7 @@ import {
 import AddToPlaylist from "../playlist/AddToPlaylist";
 import Comments from "../Comments/Comments";
 import { formatDistanceToNow } from "date-fns";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const VideoDetails = () => {
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
@@ -42,13 +43,12 @@ const VideoDetails = () => {
     }
   }, [dispatch, user, currentVideo]);
 
-  if (isLoading) {
+  if (isLoading)
     return (
-      <div className="text-white text-center py-4">
-        Loading video details...
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
       </div>
     );
-  }
 
   if (isError) {
     return (

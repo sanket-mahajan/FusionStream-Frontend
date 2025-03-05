@@ -5,6 +5,7 @@ import {
   deleteUserTweets,
 } from "../../redux/slices/tweetSlice";
 import { useParams } from "react-router-dom";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const GetUserTweets = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,9 @@ const GetUserTweets = () => {
 
   if (isLoading)
     return (
-      <p className="text-center text-gray-400">Loading user&apos;s tweets...</p>
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
     );
   if (isError)
     return (

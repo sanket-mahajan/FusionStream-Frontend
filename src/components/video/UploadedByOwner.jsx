@@ -7,6 +7,7 @@ import {
 } from "../../redux/slices/videoSlice";
 import EditVideo from "./EditVideo";
 import { TrashIcon, PencilIcon } from "@heroicons/react/24/outline";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const UploadedByOwner = ({ onVideoClick }) => {
   const dispatch = useDispatch();
@@ -37,7 +38,12 @@ const UploadedByOwner = ({ onVideoClick }) => {
     setEditingVideo(video); // Set the video to be edited
   };
 
-  if (isLoading) return <div className="text-white p-4">Loading videos...</div>;
+  if (isLoading)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
   if (isError) return <ErrorHandler />;
 
   return (

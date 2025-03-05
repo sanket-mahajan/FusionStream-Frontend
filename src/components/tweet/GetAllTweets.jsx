@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchTweetById, fetchTweets } from "../../redux/slices/tweetSlice";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const GetAllTweets = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,11 @@ const GetAllTweets = () => {
   };
 
   if (isLoading)
-    return <p className="text-center text-gray-400">Loading tweets...</p>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
   if (isError)
     return <p className="text-center text-red-500">Error loading tweets.</p>;
 

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllVideos } from "../../redux/slices/videoSlice";
 import { formatDistanceToNow } from "date-fns";
+import LoadingSpinner from "../layout/common/LoadingSpinner";
 
 const VideoList = ({ onVideoClick }) => {
   const dispatch = useDispatch();
@@ -28,9 +29,12 @@ const VideoList = ({ onVideoClick }) => {
     dispatch(fetchAllVideos());
   }, [dispatch]);
 
-  if (isLoading) {
-    return <div className="text-white text-center py-4">Loading videos...</div>;
-  }
+  if (isLoading)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
 
   if (isError) {
     console.log(errorMessage);

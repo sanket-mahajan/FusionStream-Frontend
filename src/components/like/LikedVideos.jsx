@@ -90,10 +90,10 @@ const LikedVideos = ({ onVideoClick }) => {
                 </div>
 
                 {/* Liked time */}
-                <div className="flex items-center text-pink-400 text-xs">
+                {/* <div className="flex items-center text-pink-400 text-xs">
                   <HeartIcon className="w-4 h-4 mr-1" />
                   Liked {moment(video?.createdAt).fromNow()}
-                </div>
+                </div> */}
               </div>
 
               {/* Hover overlay */}
